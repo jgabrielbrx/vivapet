@@ -1,10 +1,10 @@
-"use client"
-import Header from "@/components/Header/Header";
+import Home from "@/components/Home/Home";
+import "./globals.css"
 
-export default function Home() {
+export default function Principal() {
   return (
     <div>
-      <h1>Home</h1>
+      <Home />
     </div>
   );
 }

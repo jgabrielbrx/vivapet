@@ -35,6 +35,8 @@ export default function RootLayout({
 */
 
 import Header from "@/components/Header/Header"
+import "./globals.css"
+import Footer from "@/components/Footer/Footer";
 
 export default function RootLayout({
   children,
@@ -46,6 +48,7 @@ export default function RootLayout({
       <body>
         <Header/>
         {children}
+        <Footer/>
       </body>
     </html>
   )
