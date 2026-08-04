@@ -16,3 +16,16 @@ export enum StatusAnimal {
     ADOTADO = "ADOTADO",
     FALECIDO = "FALECIDO"
 }
+
+export enum TipoNecessidade {
+    MEDICAMENTO = "MEDICAMENTO",
+    ALIMENTACAO = "ALIMENTAÇÃO",
+    HIGIENE = "HIGIENE",
+    ENRIQUECIMENTO = "ENRIQUECIMENTO"
+}
+
+export enum TipoCuidador{
+    VETERINARIO = "VETERINÁRIO",
+    VOLUNTARIO = "VOLUNTÁRIO",
+    ESTAGIARIO = "ESTAGIÁRIO"
+}

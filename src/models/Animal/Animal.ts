@@ -1,4 +1,5 @@
 import { SexoAnimal, StatusAnimal, TipoAnimal } from "../Enums/Enums";
+import { Necessidade } from "../Necessidade/Necessidade";
 
 export class Animal {
     private readonly _id: string;
@@ -11,6 +12,8 @@ export class Animal {
     private _observacao: string;
     private _statusAnimal: StatusAnimal;
 
+    private _necessidades: Necessidade[];
+
     constructor(id: string, nomeDoAnimal: string, tipo: TipoAnimal, raca: string, sexoDoAnimal: SexoAnimal, dataNascimento: Date, dataEntradaAbrigo: Date, observacao: string, statusAnimal: StatusAnimal){
         this._id = id;
         this._nomeDoAnimal = nomeDoAnimal;
@@ -21,6 +24,7 @@ export class Animal {
         this._dataEntradaAbrigo = dataEntradaAbrigo;
         this._observacao = observacao;
         this._statusAnimal = statusAnimal;
+        this._necessidades = []
     }
 
     public get id(){
@@ -112,5 +116,10 @@ export class Animal {
         }
 
         return idade;
+    }
+
+    //ADICIONAR NECESSIDADES DO ANIMAL
+    public adicionarNecessidade(necessidade: Necessidade){
+        this._necessidades.push(necessidade);
     }
 }
