@@ -1,3 +1,4 @@
+
 import "./CartaoDashboard.css"
 
 type props = {
@@ -5,13 +6,17 @@ type props = {
     valor: number;
 }
 
-export default function CartaoDashboard({titulo, valor}:props){
-    return(
-        <div className="cartao-dashboard">
-            <h3> {titulo} </h3>
-            <span> {valor} </span>
-        </div>
-    )
-}
+export default function CartaoDashboard({ titulo, valor }: props) {
 
-<CartaoDashboard titulo="Animais" valor={40}/>
+    return (
+
+        <div className="cartao-dashboard">
+
+            <h3> {titulo} </h3>
+
+            <span> {valor} </span>
+
+        </div>
+
+    );
+}

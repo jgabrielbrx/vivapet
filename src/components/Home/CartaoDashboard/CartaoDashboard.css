@@ -1,17 +1,12 @@
-.cartao-dashboard{
+.cartao-dashboard {
+
     flex: 1;
     min-width: 180px;
-    background-color: #fff;
+    background-color: #FFF;
     border: 1px solid var(--cor-borda);
     border-radius: 8px;
     padding: 25px;
     text-align: center;
-    transition: all 0.5s;
-}
-
-.cartao-dashboard:hover {
-    transform: scale(1.04);
-    box-shadow: 0px 0px 5px var(--cor-principal)
 }
 
 .cartao-dashboard h3 {
@@ -20,6 +15,7 @@
 }
 
 .cartao-dashboard span {
+
     font-size: 36px;
     font-weight: bold;
 }

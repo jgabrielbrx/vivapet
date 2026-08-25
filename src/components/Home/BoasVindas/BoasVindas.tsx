@@ -1,10 +1,17 @@
-import "./BoasVindas.css"
+import "./BoasVindas.css";
 
-export default function Home() {
-    return (
+export default function BoasVindas(){
+
+    return(
+
         <section className="boas-vindas">
-            <h1>Bem-vindo ao VivaPet!</h1>
-            <p>Sistema de gerenciamento de abrigo de animais.</p>
+
+            <h1> Bem-vindo ao VivaPet!</h1>
+
+            <p>
+                Sistema de gerenciamento de abrigo de animais.
+            </p>
+
         </section>
-    )
+    );
 }

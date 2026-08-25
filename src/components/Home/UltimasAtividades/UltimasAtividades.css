@@ -1,4 +1,5 @@
 .ultimas-atividades{
+
     margin-top: 40px;
     background-color: #fff;
     border: 1px solid var(--cor-borda);
@@ -11,11 +12,14 @@
     margin-bottom: 20px;
 }
 
+
 .ultimas-atividades ul{
+
     margin: 0;
     padding-left: 20px;
 }
 
-.ultimas-atividades h1{
+
+.ultimas-atividades li{
     margin-bottom: 12px;
 }

@@ -1,15 +1,21 @@
 import "./UltimasAtividades.css"
 
-export default function UltimasAtividades(){
-    return(
+export default function UltimasAtividades() {
+
+    return (
+
         <section className="ultimas-atividades">
-            <h2>Últimas Atividades</h2>
+
+            <h2> Últimas Atividades: </h2>
+
             <ul>
-                <li>Novo animal cadastrado: Bob</li>
-                <li>Novo cuidador Registrado: Marcos Laurencio</li>
-                <li>Novo animal cadastrado: Athos</li>
-                <li>Novo suprimento cadastrado: Ração</li>
+                <li> Novo animal cadastrado: Rex </li>
+                <li> Novo cuidador cadastrado: João Antônio Macedo </li>
+                <li> Novo animal cadastrado: Bob </li>
+                <li> Suprimento recebido: Ração </li>
+                <li> Nova doação registrada </li>
             </ul>
+
         </section>
-    )
+    );
 }
