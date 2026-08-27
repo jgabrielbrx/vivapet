@@ -1,4 +1,4 @@
-import "./BoasVindas.css";
+import "../BoasVindas/BoasVindas.css";
 
 export default function BoasVindas(){
 

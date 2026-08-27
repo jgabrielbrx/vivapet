@@ -1,4 +1,4 @@
-import { ItemDoacao } from './ItemDoacao';
+import { ItemDoacao } from '../ItemDoacao/ItemDoacao';
 
 export class Doacao {
 

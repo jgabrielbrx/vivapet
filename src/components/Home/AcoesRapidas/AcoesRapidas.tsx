@@ -1,4 +1,4 @@
-import "./AcoesRapidas.css"
+import "../AcoesRapidas/AcoesRapidas.css"
 
 export default function AcoesRapidas(){
 
