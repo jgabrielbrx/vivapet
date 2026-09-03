@@ -56,4 +56,5 @@ export class ItemDoacao {
   public set id_suprimento(id_suprimento: number) {
     this._id_suprimento = id_suprimento;
   }
+  
 }

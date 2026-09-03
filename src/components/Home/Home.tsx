@@ -1,9 +1,9 @@
-import AcoesRapidas from "../Home/AcoesRapidas/AcoesRapidas";
-import BoasVindas from "../Home/BoasVindas/BoasVindas";
-import CartaoDashboard from "../Home/CartaoDashboard/CartaoDashboard";
+import AcoesRapidas from "./AcoesRapidas/AcoesRapidas";
+import BoasVindas from "./BoasVindas/BoasVindas";
+import CartaoDashboard from "./CartaoDashboard/CartaoDashboard";
 
-import "../Home/Home.css"
-import UltimasAtividades from "../Home/UltimasAtividades/UltimasAtividades";
+import "./Home.css"
+import UltimasAtividades from "./UltimasAtividades/UltimasAtividades";
 
 export default function Home(){
 

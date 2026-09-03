@@ -1,5 +1,5 @@
 
-import "../CartaoDashboard/CartaoDashboard.css"
+import "./CartaoDashboard.css"
 
 type props = {
     titulo: string;

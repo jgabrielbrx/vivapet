@@ -1,4 +1,4 @@
-import "../UltimasAtividades/UltimasAtividades.css"
+import "./UltimasAtividades.css"
 
 export default function UltimasAtividades() {
 

@@ -1,5 +1,5 @@
-import { TipoAnimal, SexoAnimal, StatusAnimal } from '../Enums/Enums'; // Ajuste o caminho
-import { Necessidade } from '../Necessidade/Necessidade';
+import { SexoAnimal, StatusAnimal, TipoAnimal } from "../Enums/Enums";
+import { Necessidade } from "../Necessidade/Necessidade";
 
 export class Animal {
 
@@ -10,20 +10,20 @@ export class Animal {
   private _raca: string;
   private _sexo: SexoAnimal;
   private _data_nascimento: Date;
-  private _dataEntradaAbrigo: Date;
+  private _data_entrada_abrigo: Date;
   private _observacoes: string;
   private _status: StatusAnimal;
   private _necessidades: Necessidade[];
 
 
-  constructor(id_animal: number, nome: string, tipo: TipoAnimal, raca: string, sexo: SexoAnimal, data_nascimento: Date, dataEntradaAbrigo: Date, observacoes: string = '',     status: StatusAnimal = StatusAnimal.ATIVO, necessidades: Necessidade[] = []) {
+  constructor(id_animal: number, nome: string, tipo: TipoAnimal, raca: string, sexo: SexoAnimal, data_nascimento: Date, data_entrada_abrigo: Date, observacoes: string = '', status: StatusAnimal = StatusAnimal.ATIVO, necessidades: Necessidade[] = []) {
     this._id_animal = id_animal;
     this._nome = nome;
     this._tipo = tipo;
     this._raca = raca;
     this._sexo = sexo;
     this._data_nascimento = data_nascimento;
-    this._dataEntradaAbrigo = dataEntradaAbrigo;
+    this._data_entrada_abrigo = data_entrada_abrigo;
     this._observacoes = observacoes;
     this._status = status;
     this._necessidades = necessidades;
@@ -80,12 +80,12 @@ export class Animal {
   }
 
   
-  public get dataEntradaAbrigo() {
-    return this._dataEntradaAbrigo;
+  public get data_entrada_abrigo() {
+    return this._data_entrada_abrigo;
   }
   
-  public set dataEntradaAbrigo(dataEntradaAbrigo: Date) {
-    this._dataEntradaAbrigo = dataEntradaAbrigo;
+  public set data_entrada_abrigo(data_entrada_abrigo: Date) {
+    this._data_entrada_abrigo = data_entrada_abrigo;
   }
 
 

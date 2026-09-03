@@ -1,11 +1,10 @@
 import { Pool } from "pg";
 
-//CONEXÃO COM O BANCO DE DADOS
+// CONEXÃO COM A BASE DE DADOS
 export const db = new Pool({
     user: process.env.BD_USER || 'postgres',
-    host: process.env.BD_HOST || 'localhost',
-    database: process.env.BD_NAME || 'vivapet',
-    password: process.env.BD_PASSWORD || 'BemVindo!', //tem que ser a senha que colocou quando instalou o pgAdmin4
-    port: parseInt(process.env.DB_PORT || 'S432'),
-    
-})
+    host: process.env.DB_HOST || 'localhost',
+    database: process.env.DB_NAME || 'Vivapet',
+    password: process.env.DB_PASSWORD || 'BemVindo!',
+    port: parseInt(process.env.DB_PORT || '5432'),
+});

@@ -1,6 +1,6 @@
 "use client"
 
-import "../header/Header.css";
+import "./Header.css";
 import Link from "next/link";
 
 export default function Header() {
