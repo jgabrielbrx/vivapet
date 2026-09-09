@@ -3,107 +3,106 @@ import { ItemDoacao } from "@/models/ItemDoacao/ItemDoacao";
 import { DoacaoRepository } from "@/repositories/DoacaoRepository/DoacaoRepository";
 import { DoadorRepository } from "@/repositories/DoadorRepository/DoadorRepository";
 import { ItemDoacaoRepository } from "@/repositories/ItemDoacaoRepository/ItemDoacaoRepository";
-import { SuprimentoRepository } from "@/repositories/SuprimentoRepository";
+import { SuprimentoRepository } from "@/repositories/SuprimentoRepository/SuprimentoRepository";
 
 export class DoacaoService {
-    private _doacaoRepository: DoacaoRepository;
-    private _itemDoacaoRepository: ItemDoacaoRepository;
-    private _doadorRepository: DoadorRepository;
-    private _suprimentoRepository: SuprimentoRepository;
+    private doacaoRepository: DoacaoRepository;
+    private itemDoacaoRepository: ItemDoacaoRepository;
+    private suprimentoRepository: SuprimentoRepository;
+    private doadorRepository: DoadorRepository;
 
     constructor() {
-        this._doacaoRepository = new DoacaoRepository();
-        this._itemDoacaoRepository = new ItemDoacaoRepository();
-        this._doadorRepository = new DoadorRepository();
-        this._suprimentoRepository = new SuprimentoRepository();
+        this.doacaoRepository = new DoacaoRepository();
+        this.itemDoacaoRepository = new ItemDoacaoRepository();
+        this.suprimentoRepository = new SuprimentoRepository();
+        this.doadorRepository = new DoadorRepository();
     }
 
-    //REGRA DE NEGÓCIO - REGISTRAR A DOAÇÃO, ITENS E INCREMENTAR O ESTOQUE:
-    public async registrarDoacao(
-
-        //PARÂMETROS DO MÉTODO RECEBIDOS DA TELA:
-        dados: {
-            id_doador: number;
+    // REGRA DE NEGÓCIO - Registrar a doação, seus itens e incrementar o estoque
+    public async registrarDoacao(dados: {
+        id_doador: number;
+        observacoes?: string;
+        itens: {
+            id_suprimento: number;
+            quantidade: number;
+            data_validade: Date;
             observacoes?: string;
+        }[];
+    }) {
 
-            itens: {
-                id_suprimento: number;
-                quantidade: number;
-                data_validade: Date;
-                observacoes?: string;
-            }[];
-
-        })
-
-    //INÍCIO DO MÉTODO
-    {
-        //Passo 1 - Verificar se o doador existe
-        const doador = await this._doadorRepository.buscarPorId(dados.id_doador);
-
+        // PASSO 1 - Verifica se o doador existe
+        const doador = await this.doadorRepository.buscarPorId(dados.id_doador);
         if (!doador) {
-            throw new Error('Doador não encontrado!')
+            throw new Error('Doador não encontrado.');
         }
 
-        //Checar se veio itens na tela
         if (!dados.itens || dados.itens.length === 0) {
-            throw new Error('A doação precisa conter pelo menos um item!')
+            throw new Error('Uma doação precisa conter pelo menos um item.');
         }
 
-        //Passo 2 - A instância de doação principal
+        // PASSO 2 - Instancia a Doação principal (sem o pseudo-ID)
         const novaDoacao = new Doacao(
-            0,
             new Date(),
             dados.id_doador,
-            [], //Inicialmente começa com os itens com um array vazio, para depois preenchê-lo
-            dados.observacoes
+            [], // Inicia com array vazio, preencheremos a seguir
+            dados.observacoes || ''
         );
 
-        //Passo 3 - Preencher o array de itens:
-        for (const itemDoado of dados.itens) {
-            const suprimento = await this._suprimentoRepository.buscarPorId(itemDoado.id_suprimento);
+        // PASSO 3 - Prepara os itens e atualiza o estoque em memória
+        // *Nota: Em produção, iterar no banco assim pede uma transação SQL (BEGIN/COMMIT)
+        for (const itemDado of dados.itens) {
+            const suprimento = await this.suprimentoRepository.buscarPorId(itemDado.id_suprimento);
 
             if (!suprimento) {
-                throw new Error('Suprimento não encontrado no sistema!')
+                throw new Error(`Suprimento de ID ${itemDado.id_suprimento} não encontrado no sistema.`);
             }
 
-            //Criar a instância do item
+            // Cria a instância do item (sem o pseudo-ID e na ordem correta)
             const novoItem = new ItemDoacao(
-                0,
-                itemDoado.quantidade,
-                itemDoado.data_validade,
-                itemDoado.id_suprimento,
-                itemDoado.observacoes
+                itemDado.quantidade,
+                itemDado.data_validade,
+                itemDado.id_suprimento,
+                itemDado.observacoes || ''
             );
 
             novaDoacao.itens.push(novoItem);
 
-            //Regra de negócio - incrementar o estoque do suprimento
+            // REGRA DE NEGÓCIO - Incrementa o estoque do suprimento
             suprimento.quantidade_estoque = suprimento.quantidade_estoque + novoItem.quantidade;
-
-            await this._suprimentoRepository.atualizar(suprimento);
-
-            //Passo 4 - persistir a doação e seus itens:
-            await this._doacaoRepository.salvar(novaDoacao);
-
-            for (const item of novaDoacao.itens) {
-                await this._itemDoacaoRepository.salvar(item, novaDoacao.id_doacao);
-            }
-            return novaDoacao;
+            await this.suprimentoRepository.atualizar(suprimento);
         }
+
+        // PASSO 4 - Persiste a Doação Pai e captura o ID gerado pelo banco
+        const doacaoSalva = await this.doacaoRepository.salvar(novaDoacao);
+
+        // Trava de segurança para garantir ao TypeScript que a doação foi salva e tem ID
+        if (!doacaoSalva.id_doacao) {
+            throw new Error('Falha ao gerar ID da doação no banco de dados.');
+        }
+
+        // Salva os itens vinculando-os ao ID da doação recém-criada
+        const itensSalvos: ItemDoacao[] = [];
+        for (const item of novaDoacao.itens) {
+            const itemSalvo = await this.itemDoacaoRepository.salvar(item, doacaoSalva.id_doacao);
+            itensSalvos.push(itemSalvo);
+        }
+
+        // Atualiza a doação salva com os itens que agora também possuem seus próprios IDs do banco
+        doacaoSalva.itens = itensSalvos;
+
+        return doacaoSalva;
     }
 
-    //Regra de negócio - traz a doação completa (relacionamento de composição):
+    // Regra de Negócio: Traz a doação completa (Composição)
     public async buscarDoacaoCompleta(id_doacao: number) {
-        const doacao = await this._doacaoRepository.buscarPorId(id_doacao);
-
+        const doacao = await this.doacaoRepository.buscarPorId(id_doacao);
         if (!doacao) {
             return null;
         }
 
-        const itens = await this._itemDoacaoRepository.listarPorDoacao(id_doacao);
-
+        const itens = await this.itemDoacaoRepository.listarPorDoacao(id_doacao);
         doacao.itens = itens;
-        
+
         return doacao;
     }
 }
