@@ -2,10 +2,10 @@ import { SuprimentoController } from "@/controllers/SuprimentoController/Suprime
 
 const suprimentoController = new SuprimentoController();
 
-export async function GET(req: Request){
+export async function GET(req: Request) {
     return suprimentoController.listar(req);
 }
 
-export async function POST(req: Request){
+export async function POST(req: Request) {
     return suprimentoController.cadastrar(req);
 }
