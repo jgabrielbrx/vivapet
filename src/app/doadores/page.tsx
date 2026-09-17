@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import "../doadores/doador.css";
 
 interface Doador {
     id_doador: number;
